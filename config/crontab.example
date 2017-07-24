@@ -1,0 +1,6 @@
+# help documentation - https://en.wikipedia.org/wiki/Cron
+
+# m h  dom mon dow   command
+#### deshevshe ####
+# regular reindex/rotation - every day at 00:10
+10 0 * * * sudo indexer deshevshe --rotate > /dev/null 2>&1
