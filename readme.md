@@ -45,7 +45,7 @@
         ALTER TABLE `deshevshe`.`deshevshe_products`
         ADD COLUMN `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT FIRST,
         ADD PRIMARY KEY (`id`);
-```
+    ```
     6. full mysql table with integer primary keys is ready for indexing by sphinx!
 
 3) update your sphinxsearch config with example from `config/sphinx.conf.example`.
@@ -71,7 +71,7 @@ sudo indexer --all
 ```
 sudo searchd --config /etc/sphinx/sphinx.conf
 ```
-Notice: for stopping use -   ```sudo searchd --config /etc/sphinx/sphinx.conf --stop```
+Notice: for stopping use -   sudo searchd --config /etc/sphinx/sphinx.conf --stop
 
 8) run indexer (USE THIS COMMAND ALWAYS WHEN YOU WANT TO REFRESH INDEX DATA)
 ```
