@@ -20,9 +20,11 @@
     1. make sure that terminator between fields in csv-file NOT `;` and NOT `,`. Use a more specific symbol - `|` for example.
 
     2. create database if it isn't created (open mysql tool):
+    ```
        CREATE SCHEMA `deshevshe` DEFAULT CHARACTER SET utf8 ;
-
+```
     3. drop old full table and create empty table  (open mysql tool):
+    ```
         DROP TABLE IF EXISTS `deshevshe`.`deshevshe_products`;
         CREATE TABLE IF NOT EXISTS `deshevshe`.`deshevshe_products` (
           `name` varchar(127) DEFAULT NULL,
@@ -32,16 +34,18 @@
           `picture` varchar(511) DEFAULT NULL,
           `description` text
         ) ENGINE=InnoDB AUTO_INCREMENT=20304 DEFAULT CHARSET=utf8;
-
+```
     4. import actual data from csv file to table by command:
+    ```
         mysqlimport --ignore-lines=1 --fields-terminated-by="|" --verbose --local -u root \
          deshevshe /var/www/vhosts/deshevshe/data/deshevshe_products.csv
-
+```
     5. add primary autoincrement key with command below  (open mysql tool):
+    ```
         ALTER TABLE `deshevshe`.`deshevshe_products`
         ADD COLUMN `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT FIRST,
         ADD PRIMARY KEY (`id`);
-
+```
     6. full mysql table with integer primary keys is ready for indexing by sphinx!
 
 3) update your sphinxsearch config with example from `config/sphinx.conf.example`.
@@ -51,24 +55,28 @@ Example: copy data from `config/sphinx.conf.example` to `/etc/sphinx/sphinx.conf
 `config/stopwords-en.txt` and `config/stopwords-ru.txt` FROM `config/` TO `/etc/sphinx/*`
 
 5) To check and create if directories and files don't exist:
+```
 sudo mkdir "/var/run/sphinx"
 sudo chown sphinx "/var/run/sphinx/"
 touch "/var/run/sphinx/searchd.pid"
 chmod 0777  "/var/run/sphinx/searchd.pid"
 sudo mkdir "/var/lib/sphinx/data"
 chmod 0777 "/var/lib/sphinx/data"
-
+```
 6) run indexer
+```
 sudo indexer --all
-
+```
 7) run daemon:
+```
 sudo searchd --config /etc/sphinx/sphinx.conf
-
-Notice: for stopping use -   sudo searchd --config /etc/sphinx/sphinx.conf --stop
+```
+Notice: for stopping use -   ```sudo searchd --config /etc/sphinx/sphinx.conf --stop```
 
 8) run indexer (USE THIS COMMAND ALWAYS WHEN YOU WANT TO REFRESH INDEX DATA)
+```
 sudo indexer deshevshe --rotate
-
+```
 9) set command to crontab (for automatic index rotation):
 config/crontab.example
 
@@ -88,7 +96,7 @@ If you forget to do 8 point it'll be refreshed every day by cron.
 1)
 Request: http://deshevshe.example.com/?q=купить+картридж+для+принтера+украина
 Response:
-{
+```{
     "status":true,
     "result": {
        {
@@ -103,24 +111,24 @@ Response:
           ...
        }
     }
-}
+}```
 
 2) Invalid request:
 Request: POST http://deshevshe.example.com/?q=...
 Response:
-{
+```{
     "status":false,
     "message": "For GET-request only.",
     "result": []
-}
+}```
 
 3) Not found any matches:
 Request: http://deshevshe.example.com/?q=qwertyuiopasdfg
 Response:
-{
+```{
      "status":true,
      "result": []
-}
+}```
 
 
 
