@@ -1,9 +1,9 @@
 #### Structure ####
 
--config (common static settings and examples of different related services settings)
--data (directory for different source data. Files, dumps etc.)
--lib (tree of files with main classes, core)
--public (web access must be ONLY here)
+* config (common static settings and examples of different related services settings)
+* data (directory for different source data. Files, dumps etc.)
+* lib (tree of files with main classes, core)
+* public (web access must be ONLY here)
 
 
 
@@ -11,10 +11,10 @@
 #### Full integration info in a local environments ####
 
 1) install sphinx (recommended version >=2.2.9) for centOS/ubuntu and install mysql:
-- for centOS - https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-sphinx-on-centos-7
+*  for centOS - https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-sphinx-on-centos-7
    http://sphinxsearch.com/docs/current/installing-redhat.html
-- http://zaan.ru/ustanovka-sphinx-na-centos-6/
-- for Ubuntu - https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-sphinx-on-ubuntu-16-04
+*  http://zaan.ru/ustanovka-sphinx-na-centos-6/
+*  for Ubuntu - https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-sphinx-on-ubuntu-16-04
 
 2) Create database and table; import data from csv to database's table:
     1. make sure that terminator between fields in csv-file NOT `;` and NOT `,`. Use a more specific symbol - `|` for example.
@@ -22,7 +22,7 @@
     2. create database if it isn't created (open mysql tool):
     ```
        CREATE SCHEMA `deshevshe` DEFAULT CHARACTER SET utf8 ;
-```
+    ```
     3. drop old full table and create empty table  (open mysql tool):
     ```
         DROP TABLE IF EXISTS `deshevshe`.`deshevshe_products`;
@@ -34,12 +34,12 @@
           `picture` varchar(511) DEFAULT NULL,
           `description` text
         ) ENGINE=InnoDB AUTO_INCREMENT=20304 DEFAULT CHARSET=utf8;
-```
+   ```
     4. import actual data from csv file to table by command:
     ```
         mysqlimport --ignore-lines=1 --fields-terminated-by="|" --verbose --local -u root \
          deshevshe /var/www/vhosts/deshevshe/data/deshevshe_products.csv
-```
+     ```
     5. add primary autoincrement key with command below  (open mysql tool):
     ```
         ALTER TABLE `deshevshe`.`deshevshe_products`
