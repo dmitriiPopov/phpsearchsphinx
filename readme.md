@@ -96,7 +96,8 @@ If you forget to do 8 point it'll be refreshed every day by cron.
 1)
 Request: http://deshevshe.example.com/?q=купить+картридж+для+принтера+украина
 Response:
-```{
+```
+{
     "status":true,
     "result": {
        {
@@ -111,24 +112,29 @@ Response:
           ...
        }
     }
-}```
+}
+```
 
 2) Invalid request:
 Request: POST http://deshevshe.example.com/?q=...
 Response:
-```{
+```
+{
     "status":false,
     "message": "For GET-request only.",
     "result": []
-}```
+}
+```
 
 3) Not found any matches:
 Request: http://deshevshe.example.com/?q=qwertyuiopasdfg
 Response:
-```{
+```
+{
      "status":true,
      "result": []
-}```
+}
+```
 
 
 
