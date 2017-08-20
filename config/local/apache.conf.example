@@ -1,0 +1,4 @@
+<VirtualHost 67.67.67.67>
+    ServerName deshevshe
+    DocumentRoot "/var/www/vhosts/deshevshe/web"
+</VirtualHost>
