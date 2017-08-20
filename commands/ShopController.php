@@ -23,37 +23,49 @@ class ShopController extends \yii\console\Controller
     {
         Console::output('Start');
 
-        //check if new shops exist
-        foreach (Shop::find()->andWhere(['status' => Shop::STATUS_NEW])->each() as $shop) {/**@var $shop Shop*/
+        //get all new shops
+        $shops = Shop::find()->andWhere(['status' => Shop::STATUS_NEW])->all();
 
-            Console::output(sprintf('Handle Shop #%d (%s)', $shop->id, $shop->name));
+        if (!empty($shops)) {
 
-            //if shop has already had products...
-            if ($shop->getShopProducts()->exists()) {
-                //delete all previous products
-                ShopProducts::deleteAll(['shop_id' => $shop->id]);
-                Console::output('Old products have been deleted.');
-            }
+            foreach ($shops as $shop) { /**@var $shop Shop */
+                Console::output(sprintf('Handle Shop #%d (%s)', $shop->id, $shop->name));
 
-            Console::output('Start import...');
-            //import products from Shop's file ...
-            $imported = Yii::$app->import->getImporter(ImportComponent::IMPORTER_SHOP_CSV)->import([
-                'shop' => $shop,
-            ]);
+                //mark Shop as `indexing`
+                $shop->setAttribute('status', Shop::STATUS_INDEXING);
+                $shop->save(false, ['status', 'updated_at']);
 
-            //if products have been imported...
-            if ($imported) {
-                Console::output('Products have been imported');
-                //set status as indexed
-                $shop->setAttribute('status', Shop::STATUS_INDEXED);
-                //save Shop
-                if ($shop->save()) {
-                    Console::output('Shop has been marked as Indexed');
+                //if shop has already had products...
+                if ($shop->getShopProducts()->exists()) {
+                    //delete all previous products
+                    ShopProducts::deleteAll(['shop_id' => $shop->id]);
+                    Console::output('Old products have been deleted.');
                 }
-            } else {
-                Console::output('Products have NOT been imported');
-            }
 
+                Console::output('Start import...');
+                //import products from Shop's file ...
+                $imported = Yii::$app->import->getImporter(ImportComponent::IMPORTER_SHOP_CSV)->import([
+                    'shop' => $shop,
+                ]);
+
+                //if products have been imported...
+                if ($imported) {
+                    Console::output('Products have been imported');
+                    //set status as indexed
+                    $shop->setAttribute('status', Shop::STATUS_INDEXED);
+                    //save Shop
+                    if ($shop->save(false, ['status', 'updated_at'])) {
+                        Console::output('Shop has been marked as Indexed');
+                    }
+                } else {
+                    $shop->setAttribute('status', Shop::STATUS_INDEXED);
+                    $shop->save(false, ['status', 'updated_at']);
+
+                    Console::output('Products have NOT been imported');
+                }
+            }
+        } else {
+            Console::output('Nothing to import/index');
         }
 
         Console::output('End');

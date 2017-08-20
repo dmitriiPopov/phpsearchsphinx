@@ -1,12 +1,15 @@
 # help documentation - http://sphinxsearch.com/docs/current.html
 
+
+# rotation command: `sudo indexer deshevshe --rotate`
+
 source deshevshe
 {
   type          = mysql
 
   sql_host      = localhost
   sql_user      = root
-  sql_pass      = ...PASSWORD...
+  sql_pass      = <PASSWORD>
   sql_db        = deshevshe
   sql_port      = 3306 # optional, default is 3306
 

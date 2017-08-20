@@ -21,9 +21,12 @@ use Yii;
  */
 class Shop extends \yii\db\ActiveRecord
 {
+    //available statuses
     const STATUS_NEW      = 'new';
+    const STATUS_INDEXING = 'handling';
     const STATUS_INDEXED  = 'handled';
     const STATUS_DISABLED = 'disabled';
+    const STATUS_FAILED   = 'failed';
 
     /**
      * @inheritdoc
@@ -92,8 +95,10 @@ class Shop extends \yii\db\ActiveRecord
     {
         return [
             self::STATUS_NEW      => Yii::t('app', 'New'),
+            self::STATUS_INDEXING => Yii::t('app', 'Indexing'),
             self::STATUS_INDEXED  => Yii::t('app', 'Indexed'),
             self::STATUS_DISABLED => Yii::t('app', 'Disabled'),
+            self::STATUS_FAILED   => Yii::t('app', 'Failed'),
         ];
     }
 
@@ -132,32 +137,41 @@ class Shop extends \yii\db\ActiveRecord
     }
 
     /**
+     * Delete csv file from server
      * @return void
      */
     public function deleteFile()
     {
         if ($this->getAbsoluteFile()) {
+            //delete csv file from server
             @unlink($this->getAbsoluteFile());
         }
     }
 
     /**
+     * @inheritdoc
      * @return bool
      */
     public function beforeDelete()
     {
         if (parent::beforeDelete()) {
-            //delete file with data
+            //delete csv file with source data
             $this->deleteFile();
+
             return true;
         }
         return false;
     }
 
+    /**
+     * @inheritdoc
+     * @return void
+     */
     public function afterDelete()
     {
         parent::afterDelete();
 
+        //delete all related products
         ShopProducts::deleteAll(['shop_id' => $this->id]);
     }
 }

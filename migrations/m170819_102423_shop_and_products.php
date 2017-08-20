@@ -17,7 +17,7 @@ class m170819_102423_shop_and_products extends Migration
               `filename_real` VARCHAR(511) NOT NULL DEFAULT '',
               `filename` VARCHAR(511) NOT NULL DEFAULT '',
               `file_csv_column_separator` CHAR(4) NOT NULL,
-              `status` ENUM('new', 'handled', 'disabled') NOT NULL DEFAULT 'new',
+              `status` ENUM('new', 'handling', 'handled', 'disabled', 'failed') NOT NULL DEFAULT 'new',
               `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
               `updated_at` TIMESTAMP NULL DEFAULT NULL,
 
@@ -39,18 +39,13 @@ class m170819_102423_shop_and_products extends Migration
 
             ALTER TABLE `shop_products`
             ADD INDEX `fk_shop_products_1_idx` (`shop_id` ASC);
-            ALTER TABLE `deshevshe`.`shop_products`
+            ALTER TABLE `shop_products`
             ADD CONSTRAINT `fk_shop_products_1`
               FOREIGN KEY (`shop_id`)
-              REFERENCES `deshevshe`.`shop` (`id`)
+              REFERENCES `shop` (`id`)
               ON DELETE CASCADE
               ON UPDATE CASCADE;
         ");
-
-//        $this->execute("
-//            ALTER TABLE `shop_products`
-//            ADD COLUMN `status` ENUM('disabled', 'new', 'handled') NOT NULL DEFAULT 'new' AFTER `description`;
-//        ");
     }
 
     public function down()
@@ -59,5 +54,4 @@ class m170819_102423_shop_and_products extends Migration
 
         $this->execute("DROP TABLE IF EXISTS  `shop`");
     }
-
 }

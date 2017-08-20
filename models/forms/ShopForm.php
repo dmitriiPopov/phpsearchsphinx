@@ -136,9 +136,10 @@ class ShopForm extends Model
     }
 
     /**
+     * Get list of available statuses for form
      * @return array
      */
-    public function getStatuses()
+    public function getStatusList()
     {
         $statuses = Shop::getStatusesLabels();
 

@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-class User extends \yii\base\Object implements \yii\web\IdentityInterface
+class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
 {
     public $id;
     public $username;
@@ -17,7 +17,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
         '1' => [
             'id'          => '1',
             'username'    => 'admin',
-            'password'    => '@ntROPogen',
+            'password'    => '@ntropogen',
             'authKey'     => 'aicn823uc9enuchriweci',
             'accessToken' => 'ncxvsjdnhksjhfcu3cse8r8svrsig8r',
         ],

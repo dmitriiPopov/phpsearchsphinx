@@ -42,7 +42,7 @@ use yii\widgets\ActiveForm;
         </div>
 
         <div class="col-md-2">
-            <?= $form->field($formModel, 'status')->dropDownList($formModel->getStatuses()) ?>
+            <?= $form->field($formModel, 'status')->dropDownList($formModel->getStatusList()) ?>
         </div>
 
     </div>

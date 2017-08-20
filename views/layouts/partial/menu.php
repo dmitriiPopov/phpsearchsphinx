@@ -14,19 +14,19 @@ NavBar::begin([
 $items = [];
 
 if (Yii::$app->user->isGuest) {
-    $items[] = ['label' => 'Login', 'url' => ['/site/login']];
+    $items[] = ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']];
 } else {
-    $items[] = ['label' => 'Search url', 'url' => ['/site/search', 'q' => 'принтер']];
-    $items[] = ['label' => 'Shops', 'url' => ['/site/index']];
+    $items[] = ['label' => Yii::t('app', 'Search url'), 'url' => ['/site/search', 'q' => 'тюнер']];
+    $items[] = ['label' => Yii::t('app', 'Shops'), 'url' => ['/site/index']];
     $items[] = (
-        '<li>'
-        . Html::beginForm(['/site/logout'], 'post')
-        . Html::submitButton(
-            'Logout (' . Yii::$app->user->identity->username . ')',
-            ['class' => 'btn btn-link logout']
-        )
-        . Html::endForm()
-        . '</li>'
+        Html::beginTag('li')
+            . Html::beginForm(['/site/logout'], 'post')
+            . Html::submitButton(
+                Yii::t('app', 'Logout ({username})', ['username' => Yii::$app->user->identity->username]),
+                ['class' => 'btn btn-link logout']
+            )
+            . Html::endForm()
+        . Html::endTag('li')
     );
 }
 
