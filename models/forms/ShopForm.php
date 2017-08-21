@@ -142,7 +142,9 @@ class ShopForm extends Model
     public function getStatusList()
     {
         $statuses = Shop::getStatusesLabels();
-
+        //not show status Failed at form
+        unset($statuses[Shop::STATUS_FAILED]);
+        unset($statuses[Shop::STATUS_INDEXING]);
         //if products has NOT already imported for shop...
         if ($this->model && !$this->model->getShopProducts()->exists()) {
             //remove status for shop with products
@@ -151,7 +153,7 @@ class ShopForm extends Model
             //remove status for shop with products
             unset($statuses[Shop::STATUS_NEW]);
         }
-
+        //return stuses are avaialbel for form
         return $statuses;
     }
 }

@@ -1,0 +1,38 @@
+server{
+    listen 93.190.42.218;
+    server_name .deshevshe.com www.deshevshe.com;
+    root /var/www/vhosts/deshevshe.com/web;
+    index       index.php;
+
+    charset utf-8;
+    client_max_body_size 128M;
+
+
+    location / {
+        # Перенаправляем все запросы к несуществующим директориям и файлам на index.php
+        try_files $uri $uri/ /index.php?$args;
+    }
+
+    # раскомментируйте строки ниже во избежание обработки Yii обращений к несуществующим статическим файлам
+    #location ~ \.(js|css|png|jpg|gif|swf|ico|pdf|mov|fla|zip|rar)$ {
+    #    try_files $uri =404;
+    #}
+    #error_page 404 /404.html;
+
+    location ~ \.php$ {
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  /var/www/vhosts/deshevshe.com/web$fastcgi_script_name;
+        include        fastcgi_params;
+    }
+
+    #location ~ \.php$ {
+   #     include fastcgi.conf;
+    #    fastcgi_pass   127.0.0.1:9000;
+    #    #fastcgi_pass unix:/var/run/php5-fpm.sock;
+    #}
+
+    location ~ /\.(ht|svn|git) {
+        deny all;
+    }
+}
