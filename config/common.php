@@ -29,7 +29,7 @@ return [
         ],
     ],
 
-    'params' => array_merge(require_once('params.php'), require_once('local/local.params.php'), [
-
+    'params' => \yii\helpers\ArrayHelper::merge(require_once('params.php'), require_once('local/local.params.php'), [
+        
     ]),
 ];

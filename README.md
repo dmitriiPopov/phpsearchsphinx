@@ -53,6 +53,7 @@ You can then install this project template using the following command:
 ~~~
 php composer.phar create-project --prefer-dist --stability=dev yiisoft/yii2-app-basic basic
 ~~~
+OR wget https://getcomposer.org/composer.phar
 
 Now you should be able to access the application through the following URL, assuming `basic` is the directory
 directly under the Web root.
