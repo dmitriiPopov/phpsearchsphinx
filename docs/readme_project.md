@@ -50,6 +50,8 @@ sudo indexer deshevshe --rotate
 9) set command to crontab `sudo crontab -e` (for automatic index rotation):
 config/crontab.example
 
+10) add chmod 0777 on `/web/uploads`
+
 
 
 
