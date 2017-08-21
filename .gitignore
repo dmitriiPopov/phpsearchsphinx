@@ -30,8 +30,8 @@ tests/_output/*
 tests/_support/_generated
 
 # local configuration
-/config/local/local.common.php.dist
-/config/local/local.params.php.dist
+/config/local/local.common.php
+/config/local/local.params.php
 
 # temp files
 /tmp
